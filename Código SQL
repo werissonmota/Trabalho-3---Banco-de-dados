@@ -59,6 +59,11 @@ insert into imovel(id_Imovel, disponibilidade, foto, data_Construcao, cidade, ru
 insert into imovel_terreno (id_Terreno, area, largura, comprimento, possui_Aclive, possui_Declive)
         values (0004, 100.0, 10.0,10.0, 1, 0);
         
+insert into imovel(id_Imovel, disponibilidade, foto, data_Construcao, cidade, rua, bairro, numero, valor_sugerido) 
+        values(0005, "Indisponivel", "D:\\fotos", "05/02/2000", "Arueira", "Cajueiro", "Sela", 731, 123500.00);
+insert into imovel_Apartamento(id_Apartamento, qtd_Quartos, qtd_suites, qtd_Sala_Estar, qtd_Sala_Jantar, qtd_Vagas_Garagem, area, armario_Embutido, descricao, andar, valor_Condomínio, Portaria24hs) 
+        values (0005, 4, 2 ,3 ,2, 2, 700.00, 1, "Bonito", 4, 200.00, 1);                
+        
 insert into cliente (id_Cliente, cpf, nome, endereco, telefone, email, sexo, estado_Civil, profissao)
         values (0001, "950.020.100-97", "Caio Moura Teles","Vale", "934544332", "caiocaindo@Gmail.com", "Masculino", "Casado", "Bombeiro");
         
@@ -80,6 +85,24 @@ SELECT AVG(valor_sugerido) FROM imovel;
 
 SELECT SUM(valor_sugerido) FROM imovel;
 
+/*Seleciona o valor sugerido dos imoveis disponiveis*/
 select valor_sugerido from imovel where disponibilidade = "Disponivel";
 
+/*Seleciona todas as informações da tabela imovel ordenando  pelo valor sugerido de forma crescente*/
 select * from imovel order by valor_sugerido ASC;
+
+/*Seleciona todas as informações da tabela imovel dos imoveis que são casas*/
+SELECT * FROM imovel INNER JOIN imovel_Casa ON imovel.id_Imovel = imovel_Casa.id_Casa;
+
+SELECT DISTINCT cidade FROM imovel;
+
+/*Seleciona por cidade o numero de imoveis do tipo apartamento que possuem uma quantidade de quartos maior que 2 */ 
+select COUNT(id_Imovel), cidade from imovel inner join imovel_Apartamento on imovel.id_Imovel = imovel_Apartamento.id_Apartamento where qtd_Quartos > 2 GROUP BY cidade;
+
+/* Seleciona as informações da tabela imovel dos imoveis que foram vendidos/alugados*/
+select * from imovel where id_Imovel = (select id_Imovel from vendido_Alugado);
+
+/*Seleciona o cargo dos funcionários que finalizaram um contrato de venda/aluguel*/
+select cargo from cargo where id_cargo = (select id_cargo from funcionario where id_Funcionario = (select id_Funcionario from vendido_Alugado));
+ 
+
