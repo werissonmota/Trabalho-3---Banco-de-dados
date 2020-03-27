@@ -1,3 +1,5 @@
+Create database Imobiliaria;
+
 create table imovel(id_Imovel int, disponibilidade varchar(100), foto varchar(100), data_Construcao varchar(100), cidade varchar(100), 
                     rua varchar(100), bairro varchar(100), numero integer, valor_sugerido float, primary key (id_Imovel));
 
